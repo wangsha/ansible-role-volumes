@@ -5,7 +5,7 @@
     module: ec2_vol
     region: "{{ hostvars[inventory_hostname]['ec2_region'] }}"
     instance: "{{ hostvars[inventory_hostname]['ec2_id'] }}"
-    volume_size: "{{ volume.size }}
+    volume_size: "{{ volume.size }}"
     device_name: "{{ volume.device_name }}"
     register: result
   when: volume.name is defined
