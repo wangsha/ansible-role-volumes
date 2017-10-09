@@ -1,5 +1,6 @@
 ---
 - name: attach ec2 volume
+  become: false
   local_action:
     name: "{{ volume.name }}"
     module: ec2_vol
