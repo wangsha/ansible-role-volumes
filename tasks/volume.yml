@@ -7,7 +7,7 @@
     instance: "{{ hostvars[inventory_hostname]['ec2_id'] }}"
     volume_size: "{{ volume.size }}"
     device_name: "{{ volume.device_name }}"
-    register: result
+  register: result
   when: volume.name is defined
 
 - debug:
