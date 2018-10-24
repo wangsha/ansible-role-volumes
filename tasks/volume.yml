@@ -12,7 +12,7 @@
   when: volume.name is defined
 
 - debug:
-  var: result
+    var: result
   when: volume.name is defined
        
 - name: "Volume {{ volume.dev }}: Verify the existence"
