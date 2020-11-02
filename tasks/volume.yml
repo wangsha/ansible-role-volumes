@@ -1,7 +1,7 @@
 ---
 - name: gather ec2 facts
   amazon.aws.ec2_metadata_facts:
-    register: ec2_info
+  register: ec2_info
     
 - debug:
     var: ec2_info
