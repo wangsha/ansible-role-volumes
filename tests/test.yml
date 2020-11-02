@@ -2,7 +2,7 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - role: gcoop-libre.volumes
+    - role: ansible-role-volumes
       volumes:
         - dev: /dev/sda1
           mount_point: /data

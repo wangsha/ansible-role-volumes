@@ -1,4 +1,27 @@
 ---
+- name: gather ec2 facts
+  amazon.aws.ec2_metadata_facts:
+  register: ec2_info
+    
+- debug:
+    var: ec2_info
+
+- name: attach ec2 volume
+  become: false
+  local_action:
+    name: "{{ volume.name }}"
+    module: amazon.aws.ec2_vol
+    region: "{{ ec2_info['ansible_facts']['ansible_ec2_instance_identity_document_region'] }}"
+    instance: "{{ ec2_info['ansible_facts']['ansible_ec2_instance_id'] }}"
+    volume_size: "{{ volume.size }}"
+    device_name: "{{ volume.device_name }}"
+  register: result
+  when: volume.name is defined
+
+- debug:
+    var: result
+  when: volume.name is defined
+       
 - name: "Volume {{ volume.dev }}: Verify the existence"
   stat:
     path: "{{ volume.dev }}"
@@ -23,7 +46,7 @@
 - name: "Volume {{ volume.dev }}: Mount in {{ volume.mount_point }}"
   mount:
     name: "{{ volume.mount_point }}"
-    src: "{{ volume.dev }}"
+    src: "{{ volume.uuid | default(volume.dev) }}"
     fstype: "{{ volume.fstype | default(volumes_defaults.fstype) }}"
     opts: "{{ volume.opts | default(volumes_defaults.opts) }}"
     dump: "{{ volume.dump | default(volumes_defaults.dump) }}"
